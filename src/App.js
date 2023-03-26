@@ -2,18 +2,40 @@ import React from 'react'
 // import { Counter } from './features/counter/Counter'
 import './App.css'
 import Home from './pages/Home'
-import Auth from './pages/Auth'
+import LogIn from './pages/LogIn'
 import EventDetails from './pages/EventDetails'
 import NewEvent from './pages/NewEvent'
 import { Route, Routes } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { CheckSession } from './services/Auth'
 
 function App() {
+  const [user, setUser] = useState(null)
+
+  const checkToken = async () => {
+    const user = await CheckSession()
+    setUser(user)
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+
+    if (token) {
+      checkToken()
+    }
+  }, [])
+
+  // const handleLogout = () => {
+  //   setUser(null)
+  //   localStorage.clear()
+  // }
+
   return (
     <div className="App">
       <main className="App-header">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<Auth />} />
+          <Route path="/" element={<Home user={user} />} />
+          <Route path="/login" element={<LogIn setUser={setUser} />} />
           <Route path="/newevent" element={<NewEvent />} />
           <Route path="/events/:id" element={<EventDetails />} />
         </Routes>
