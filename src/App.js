@@ -8,6 +8,7 @@ import NewEvent from './pages/NewEvent'
 import { Route, Routes } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { CheckSession } from './services/Auth'
+import NavBar from './components/NavBar'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -32,6 +33,7 @@ function App() {
 
   return (
     <div className="App">
+      <NavBar />
       <main className="App-header">
         <Routes>
           <Route path="/" element={<Home user={user} />} />
